@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/home_page_item"
+        android:icon="@drawable/ic_one_ic_port"
+        android:title="@string/home_page_item" />
+
+    <item
+        android:id="@+id/scene_setting_item"
+        android:icon="@drawable/ic_zigbee"
+        android:title="@string/scene_setting_item" />
+
+    <item
+        android:id="@+id/device_manage_item"
+        android:icon="@drawable/ic_inferad"
+        android:title="@string/device_manage_item" />
+
+    <item
+        android:id="@+id/personal_center_item"
+        android:icon="@drawable/ic_four_ic"
+        android:title="@string/personal_center_item" />
+    <item
+        android:id="@+id/module_page_item"
+        android:icon="@drawable/module_page_item"
+        android:title="@string/module_page_item" />
+
+</menu>

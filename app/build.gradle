@@ -1,0 +1,136 @@
+//应用 应用程序模块
+apply plugin: 'com.android.application'
+
+android {
+    //指定使用项目的编译版本
+    compileSdkVersion 28
+    defaultConfig {
+        //包名
+        applicationId "car.bkrc.com.car2021"
+        //指定项目最低兼容的Android版本
+        minSdkVersion 21
+        //表示在Android9.0(28)版本上已经进行过充分的测试
+        //noinspection ExpiredTargetSdkVersion - 表示忽略Google提示的建议
+        //noinspection ExpiredTargetSdkVersion
+        targetSdkVersion 28
+        //项目版本号
+        versionCode 1
+        //版本名
+        versionName '1.6.1'
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        //设置支持的so库架构(开发者可以根据需要，选择一个或多个平台的so)
+        ndk {
+            moduleName "serial_port"
+            ldLibs "log", "z", "m"
+//            abiFilters "armeabi"
+            abiFilters "armeabi-v7a","arm64-v8a"
+        }
+        /**
+         * ++++++++++++++++++++++++++++++++++++++++++++++++++此处进行了添加++++++++++++++++++++++++++++++++++++++++++++++++++
+         */
+        externalNativeBuild {
+            cmake {
+                cppFlags "-std=c++11 -frtti -fexceptions -Wno-format"
+                arguments '-DANDROID_PLATFORM=android-23', '-DANDROID_STL=c++_shared', "-DANDROID_ARM_NEON=TRUE"
+            }
+        }
+        aaptOptions.cruncherEnabled = false
+    }
+
+    buildTypes {
+        release {
+            //是否进行代码混淆
+            minifyEnabled false
+            //指定混淆规则文件
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+//    productFlavors {}
+
+    repositories {
+        flatDir {
+            dirs 'libs'
+        }
+    }
+    //这里进行了改动
+    compileOptions {
+        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_1_8
+    }
+    buildFeatures {
+        dataBinding = false
+    }
+    /**
+     * ++++++++++++++++++++++++++++++++++++++++++++++++++此处添加自己的修改++++++++++++++++++++++++++++++++++++++++++++++++++
+     */
+    externalNativeBuild {
+        cmake {
+            path "src/main/cpp/CMakeLists.txt"
+            version "3.10.2"
+        }
+    }
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+//当项目包含重复的.os文件时使用,这将在编译时选择如下所写的.os文件,但此时应当检查项目为何有重复.os文件,如果属于不同项目则应该尽量将其兼容,而不是任选其一
+//    packagingOptions {
+//        pickFirst 'lib/arm64-v8a/libc++_shared.so'
+//        pickFirst 'lib/armeabi-v7a/libc++_shared.so'
+//    }
+    ndkVersion '21.1.6352462'
+}
+
+//指定当前项目的所有依赖关系
+dependencies {
+    //noinspection GradleCompatible
+    implementation 'com.android.support:recyclerview-v7:28.0.0'
+    implementation 'com.android.support:appcompat-v7:28.0.0'
+    implementation 'com.android.support.constraint:constraint-layout:2.0.4'
+    implementation 'com.android.support:design:28.0.0'
+    implementation 'com.android.support:cardview-v7:28.0.0'
+    implementation 'com.android.support:support-v4:28.0.0'
+    implementation 'com.github.castorflex.verticalviewpager:library:19.0.1'
+    implementation 'com.github.bumptech.glide:glide:3.7.0'
+    implementation 'org.greenrobot:eventbus:3.1.1'
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.7'
+
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
+    //远程依赖声明
+    testImplementation 'junit:junit:4.13.2'//用以声明测试用例库
+    // google zxing库
+    implementation 'com.google.zxing:core:3.5.1'
+    implementation 'com.google.zxing:android-core:3.3.0'
+    //微信二维码识别以及基本的openCV库
+    implementation 'com.github.jenly1314.WeChatQRCode:opencv:1.2.0'
+    implementation 'com.github.jenly1314.WeChatQRCode:opencv-armv64:1.2.0'
+    implementation 'com.github.jenly1314.WeChatQRCode:wechat-qrcode:1.2.0'
+    //
+    implementation 'org.tensorflow:tensorflow-lite:2.4.0'
+    implementation 'org.tensorflow:tensorflow-lite-gpu:2.4.0'
+
+    //本地依赖声明：将本地的jar包、目录添加依赖关系，添加到项目的构建路径当中
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation files('libs/camerautil.jar')
+    implementation project(':library')
+
+    implementation(name: 'usbSerialForAndroid-debug', ext: 'aar')
+    implementation(name: 'BottomNavigationViewLibrary-debug', ext: 'aar')
+
+    //导入自制BaiduOCR识别项目文件
+    implementation files('libs/BaiDuOCR-Mod-debug.aar')
+    //导入自制Yolov5-tflite-TSDetector识别项目文件
+    implementation files('libs/Yolov5-tflite-TSDetector.aar')
+
+//除非选择重写大部分样式内容,否则不建议引入全新的androidx包
+//    implementation 'androidx.annotation:annotation:1.2.0'
+//    implementation 'androidx.appcompat:appcompat:1.2.0'
+}
+
+/**
+ * ++++++++++++++++++++++++++++++++++++++++++++++++++此处添加自己的修改++++++++++++++++++++++++++++++++++++++++++++++++++
+ */

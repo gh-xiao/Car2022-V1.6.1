@@ -1,0 +1,40 @@
+<resources>
+    <string name="app_name">Car2021</string>
+    <string name="deviceid">设备ID</string>
+    <string name="loginname">用户名</string>
+
+    <string name="sp_data">90</string>
+    <string name="mp_data">100</string>
+    <string name="line_data">50</string>
+    <string name="line_disc">循迹速度:</string>
+    <string name="angle_disc">转弯速度:</string>
+    <string name="main_status">接收实训平台状态</string>
+    <string name="follow_status">接收移动机器人状态</string>
+    <string name="main_control">控制实训平台</string>
+    <string name="follow_control">控制移动机器人</string>
+    <string name="clear_coded_disc">清除码盘</string>
+    <string name="set_ConnectTransport_mark">重置半自动mark值</string>
+
+    <string name="digital_title">显示数据行:</string>
+    <string name="voicetext">播报的文本:</string>
+    <string name="voiceText">百科荣创（北京）科技发展有限公司</string>
+
+    <string name="full_auto">自动驾驶</string>
+
+    <!--设备id和用户名-->
+    <string name="devicetext">BKRC-001</string>
+    <string name="logintext">BKRC-2021</string>
+    <string name="loginpsd">密码不超过16个字符，可直接点击登录！</string>
+    <string name="trafficLightIdentifyTest">全自动方案</string>
+    <string name="home_page_item">主页</string>
+    <string name="scene_setting_item">ZigBee通信</string>
+    <string name="device_manage_item">红外通信</string>
+    <string name="personal_center_item">其他</string>
+    <string name="module_page_item">模块测试</string>
+    <string name="Refresh">刷 新</string>
+    <!--左侧导航栏-->
+    <!--ZigBee-->
+
+
+    <!--    以下是百度OCR所使用的string资源-->
+</resources>

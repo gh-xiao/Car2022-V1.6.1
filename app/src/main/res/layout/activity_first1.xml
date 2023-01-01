@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/blue"
+    android:orientation="vertical"
+    tools:context=".ActivityView.FirstActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@drawable/tittle_color"
+        android:orientation="horizontal">
+
+        <car.bkrc.com.car2021.Utils.OtherUtil.TitleToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@drawable/tittle_color"
+            android:theme="@style/AppTheme.AppBar"
+            app:backIcon="@drawable/bg_back"
+            app:backText="返回"
+            app:backTextAppearance="?attr/actionMenuTextAppearance"
+            app:backTextColor="@android:color/white"
+            app:backVisible="false"
+            app:closeText="关闭"
+            app:closeTextAppearance="?attr/actionMenuTextAppearance"
+            app:closeTextColor="@android:color/white"
+            app:closeVisible="false"
+            app:titleTextAppearance="@style/Title_Appearance"
+            app:titleTextColor="@android:color/white"
+            app:titleTextSize="@dimen/bottom_navigation_padding_top_active"
+            app:title_gravity="center">
+            <!--<include layout="@layout/left_toolbar"/>-->
+
+            <ImageView
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/bkrc_logo" />
+        </car.bkrc.com.car2021.Utils.OtherUtil.TitleToolbar>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="嵌入式系统综合应用实训开发装置"
+            android:textColor="@color/color_white"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/auto_drive_btn"
+            android:layout_width="75dp"
+            android:layout_height="30dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="50dp"
+            android:background="@drawable/reference_background"
+            android:gravity="center"
+            android:text="@string/full_auto"
+            android:textColor="@color/color_white"
+            android:textSize="15sp" />
+
+    </RelativeLayout>
+
+
+    <!--主布局和侧滑菜单-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <fragment
+            android:id="@+id/left_fragment"
+            android:name="car.bkrc.com.car2021.FragmentView.LeftFragment"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewpager"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_selete_all"
+            android:padding="5dp" />
+    </LinearLayout>
+
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/bottomNavigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/translucence_bg_lucency"
+        app:labelVisibilityMode="labeled"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:menu="@menu/navigation_menu" />
+
+</LinearLayout>
+
+
+
+
+

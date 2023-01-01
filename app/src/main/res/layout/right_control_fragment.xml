@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="5dp"
+    android:orientation="vertical"
+    android:padding="5dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:background="@drawable/reference_background"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/rvdata"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="6dp"
+            android:singleLine="true"
+            android:text="设备没有连接，这里空空如也哦~"
+            android:textColor="@color/color_white"
+            android:textSize="15sp"
+            tools:ignore="NestedWeights" />
+        <!--内层参数填充-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="3dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.5"
+                android:gravity="center"
+                android:text="码 盘:"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/coded_disc_data"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:inputType="number"
+                android:text="@string/mp_data"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.5"
+                android:gravity="center_horizontal"
+                android:text="@string/line_disc"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/angle_data"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:inputType="number"
+                android:text="@string/line_data"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.5"
+                android:gravity="center_horizontal"
+                android:text="@string/angle_disc"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/speed_data"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:inputType="number"
+                android:text="@string/sp_data"
+                android:textSize="15sp" />
+
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="7"
+        android:gravity="center">
+
+        <ImageButton
+            android:id="@+id/up_button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/upbutton_img" />
+
+        <ImageButton
+            android:id="@+id/stop_button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_below="@id/up_button"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/stopbutton_img" />
+
+        <ImageButton
+            android:id="@+id/below_button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_below="@id/stop_button"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/belowbutton_img" />
+
+        <ImageButton
+            android:id="@+id/right_button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignBottom="@+id/stop_button"
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@+id/up_button"
+            android:background="@drawable/rightbutton_img" />
+
+        <ImageButton
+            android:id="@+id/left_button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_above="@+id/below_button"
+            android:layout_marginRight="20dp"
+            android:layout_toLeftOf="@+id/up_button"
+            android:background="@drawable/leftbutton_img" />
+    </RelativeLayout>
+</LinearLayout>

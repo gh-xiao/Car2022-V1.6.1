@@ -1,0 +1,14 @@
+*.iml
+.gradle
+/local.properties
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+/app/libs/EasyDL-Mod-debug.aar
+.idea
+/app/.cxx/
+/app/build/
+/openCVLibrary346/.cxx/
+/openCVLibrary346/build/
+/library/build/

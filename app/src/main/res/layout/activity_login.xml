@@ -1,0 +1,205 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <ImageView
+        android:id="@+id/login_gif"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:src="@mipmap/rc_logo_gif"
+        android:scaleType="fitStart"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#a0f5f5f5"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@mipmap/title_icon"
+            android:gravity="center"
+            android:text="登  录"
+            android:textColor="@color/white"
+            android:textSize="30sp"
+            android:layout_weight="1"/>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="100dp"
+            android:layout_marginRight="100dp"
+            android:layout_marginTop="35dp"
+            android:orientation="horizontal"
+            android:layout_weight="1">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:padding="3dp"
+                android:text="@string/deviceid"
+                android:textSize="25sp" />
+
+            <EditText
+                android:id="@+id/deviceid"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="13sp"
+                android:layout_weight="3"
+                android:background="@drawable/editviewcase"
+                android:cursorVisible="true"
+                android:text="@string/devicetext"
+                android:hint="@string/devicetext"
+                android:selectAllOnFocus="true"
+                android:textColorHint="#c0c0c0" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="100dp"
+            android:layout_marginRight="100dp"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal"
+            android:layout_weight="1">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:padding="3dp"
+                android:text="@string/loginname"
+                android:textSize="25sp" />
+
+            <EditText
+                android:id="@+id/loginname"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="13sp"
+                android:layout_weight="3"
+                android:background="@drawable/editviewcase"
+                android:cursorVisible="true"
+                android:text="@string/logintext"
+                android:hint="@string/logintext"
+                android:maxLength="10"
+                android:selectAllOnFocus="true"
+                android:textColorHint="#c0c0c0" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="100dp"
+            android:layout_marginRight="100dp"
+            android:layout_marginTop="25dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_weight="1">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="3dp"
+                android:text="密  码"
+                android:textSize="25sp" />
+
+            <EditText
+                android:id="@+id/loginpasswd"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="15sp"
+                android:layout_weight="3"
+                android:background="@drawable/editviewcase"
+                android:hint="@string/loginpsd"
+                android:text="BKRC20210520"
+                android:maxLength="16"
+                android:inputType="textPassword"
+                android:selectAllOnFocus="true"
+                android:textColorHint="#c0c0c0" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="1dp"
+            android:gravity="center"
+            android:layout_weight="1"
+            >
+            <CheckBox
+                android:id="@+id/remember"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="80dp"
+                android:textSize="18sp"
+                android:text="显示密码"/>
+
+            <CheckBox
+                android:id="@+id/wifi_each"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:layout_marginLeft="50dp"
+                android:text="WiFi通信"
+                android:checked="true"/>
+
+            <CheckBox
+                android:id="@+id/uart_each"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:layout_marginLeft="40dp"
+                android:text="串口通信"/>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="27dp"
+            android:layout_weight="2"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/reset"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="150dp"
+                android:layout_marginRight="100dp"
+                android:layout_weight="1"
+                android:background="@drawable/loginbutton"
+                android:text="重置"
+                android:textColor="@color/white"
+                android:textSize="35sp" />
+
+            <Button
+                android:id="@+id/connect"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="150dp"
+                android:layout_weight="1"
+                android:background="@drawable/loginbutton"
+                android:text="连接"
+                android:textColor="@color/white"
+                android:textSize="35sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    </RelativeLayout>

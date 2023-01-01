@@ -1,0 +1,31 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <!--<item name="android:src">@drawable/ic_three_ic</item>-->
+    </style>
+
+    <style name="Title_Appearance" parent="Base.TextAppearance.AppCompat.Widget.ActionBar.Title"/>
+    <style name="AppTheme.AppBar" parent="ThemeOverlay.AppCompat.Dark"/>
+
+    <!--设置导航箭头的样式-->
+
+
+    <style name="Transparent" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
+        <item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>
+        <item name="android:windowBackground">@drawable/transparent_bg</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
+
+</resources>
