@@ -94,10 +94,8 @@ public class FirstActivity extends AppCompatActivity {
     //主从状态
     public static boolean chief_status_flag = true;
     //主从控制
-    public static boolean chief_control_flag = true;
+//    public static boolean chief_control_flag = true;
     public static Handler recvHandler = null;
-    //按钮和menu同步
-    public static Handler but_handler;
     private ViewPager mLateralViewPager;
     private CameraConnectUtil cameraConnectUtil;
     //右上角工具菜单
@@ -143,10 +141,9 @@ public class FirstActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         /* 绑定内容视图 */
         setContentView(R.layout.activity_first1);
-        /* 用于leftFragment中隐藏的按钮和标题栏中的menu同步 */
-        but_handler = button_handler;
         toastUtil = new ToastUtil(this);
         /* 竞赛平台和A72通过usb转串口通信 */
+        //TODO 修改连接方式
         if (XcApplication.isSerial == XcApplication.Mode.USB_SERIAL) {
             /* 启动usb的识别和获取 */
             mHandler.sendEmptyMessageDelayed(MESSAGE_REFRESH, REFRESH_TIMEOUT_MILLIS);
@@ -280,25 +277,23 @@ public class FirstActivity extends AppCompatActivity {
                     chief_status_flag = true;
                     item.setTitle(getResources().getText(R.string.follow_status));
                     Connect_Transport.stateChange(2);
-                    LeftFragment.btChange_Handler.obtainMessage(21).sendToTarget();
+
                 } else if (item.getTitle().equals("接收移动机器人状态")) {
                     chief_status_flag = false;
                     item.setTitle(getResources().getText(R.string.main_status));
                     Connect_Transport.stateChange(1);
-                    LeftFragment.btChange_Handler.obtainMessage(22).sendToTarget();
+
                 }
                 break;
             case R.id.car_control:
                 if (item.getTitle().equals("控制实训平台")) {
-                    chief_control_flag = true;
+//                    chief_control_flag = true;
                     item.setTitle(getResources().getText(R.string.follow_control));
                     Connect_Transport.TYPE = 0xAA;
-                    LeftFragment.btChange_Handler.obtainMessage(23).sendToTarget();
                 } else if (item.getTitle().equals("控制移动机器人")) {
-                    chief_control_flag = false;
+//                    chief_control_flag = false;
                     item.setTitle(getResources().getText(R.string.main_control));
                     Connect_Transport.TYPE = 0x02;
-                    LeftFragment.btChange_Handler.obtainMessage(24).sendToTarget();
                 }
                 break;
             case R.id.clear_coded_disc:
@@ -347,30 +342,6 @@ public class FirstActivity extends AppCompatActivity {
      * <p>+++++++++++++++++++++++++++++++++++++++++++++++++++++++++</p>
      */
 
-    //实现menu和leftFragment中的三个按钮同步
-    @SuppressLint("HandlerLeak")
-    private final Handler button_handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what) {
-                case 11:
-                    toolMenu.getItem(1).setTitle(getResources().getText(R.string.follow_status));
-                    break;
-                case 22:
-                    toolMenu.getItem(1).setTitle(getResources().getText(R.string.main_status));
-                    break;
-                case 33:
-                    toolMenu.getItem(2).setTitle(getResources().getText(R.string.follow_control));
-                    break;
-                case 44:
-                    toolMenu.getItem(2).setTitle(getResources().getText(R.string.main_control));
-                    break;
-                default:
-                    break;
-            }
-        }
-    };
 
     /**
      * 接收Eventbus消息
@@ -414,31 +385,30 @@ public class FirstActivity extends AppCompatActivity {
     //串行输入输出管理器(串口通讯管理器)
     private SerialInputOutputManager mSerialIoManager;
     //监听事件
-    private final SerialInputOutputManager.Listener mListener =
-            new SerialInputOutputManager.Listener() {
-                @Override
-                public void onRunError(Exception e) {
-                    Log.e(TAG, "Runner stopped.");
-                }
+    private final SerialInputOutputManager.Listener mListener = new SerialInputOutputManager.Listener() {
+        @Override
+        public void onRunError(Exception e) {
+            Log.e(TAG, "Runner stopped.");
+        }
 
-                @Override
-                //新的数据
-                public void onNewData(final byte[] data) {
-                    FirstActivity.this.runOnUiThread(() -> {
-                        Message msg = recvHandler.obtainMessage(1, data);
-                        msg.sendToTarget();
-                        FirstActivity.this.updateReceivedData(data);
-                    });
-                }
-            };
+        @Override
+        //新的数据
+        public void onNewData(final byte[] data) {
+            FirstActivity.this.runOnUiThread(() -> {
+                Message msg = recvHandler.obtainMessage(1, data);
+                msg.sendToTarget();
+                FirstActivity.this.updateReceivedData(data);
+            });
+        }
+    };
 
     //usb控制器
     protected void controlusb() {
         Log.e(TAG, "Resumed, port=" + sPort);
-        if (sPort == null) {
-            toastUtil.ShowToast("没有串口驱动！");
-        } else {
-            openUsbDevice();
+        if (sPort == null) toastUtil.ShowToast("没有串口驱动！");
+        else {
+            //在打开usb设备前，弹出选择对话框，尝试获取usb权限
+            tryGetUsbPermission();
             if (connection == null) {
                 mHandler.sendEmptyMessageDelayed(MESSAGE_REFRESH, REFRESH_TIMEOUT_MILLIS);
                 toastUtil.ShowToast("串口驱动失败！");
@@ -463,11 +433,6 @@ public class FirstActivity extends AppCompatActivity {
         Transparent.dismiss();
     }
 
-    //在打开usb设备前，弹出选择对话框，尝试获取usb权限
-    private void openUsbDevice() {
-        tryGetUsbPermission();
-    }
-
     //获取usb权限
     private static final String ACTION_USB_PERMISSION = "com.android.example.USB_PERMISSION";
     private static final int MESSAGE_REFRESH = 101;
@@ -476,6 +441,7 @@ public class FirstActivity extends AppCompatActivity {
     private UsbManager mUsbManager;
 
     private void tryGetUsbPermission() {
+
         IntentFilter filter = new IntentFilter(ACTION_USB_PERMISSION);
         registerReceiver(mUsbPermissionActionReceiver, filter);
         PendingIntent mPermissionIntent = PendingIntent.getBroadcast(this, 0, new Intent(ACTION_USB_PERMISSION), 0);
@@ -497,12 +463,13 @@ public class FirstActivity extends AppCompatActivity {
 
     private void afterGetUsbPermission(UsbDevice usbDevice) {
         toastUtil.ShowToast("Found USB device: VID=" + usbDevice.getVendorId() + " PID=" + usbDevice.getProductId());
-        doYourOpenUsbDevice(usbDevice);
-    }
 
-    private void doYourOpenUsbDevice(UsbDevice usbDevice) {
         connection = mUsbManager.openDevice(usbDevice);
     }
+
+//    private void doYourOpenUsbDevice(UsbDevice usbDevice) {
+//        connection = mUsbManager.openDevice(usbDevice);
+//    }
 
     private final BroadcastReceiver mUsbPermissionActionReceiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
@@ -557,37 +524,30 @@ public class FirstActivity extends AppCompatActivity {
     //usb转串口列表
     private final List<UsbSerialPort> mEntries = new ArrayList<>();
 
-
     @SuppressLint("HandlerLeak")
     private final Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case MESSAGE_REFRESH:
-                    refreshDeviceList();
-                    break;
-                default:
-                    super.handleMessage(msg);
-                    break;
-            }
+            if (msg.what == MESSAGE_REFRESH) refreshDeviceList();
+            else super.handleMessage(msg);
         }
     };
 
-    @SuppressLint("HandlerLeak")
-    private final Handler usbHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            if (msg.what == 2) {
-                try {
-                    useUsbtoserial();
-                } catch (IndexOutOfBoundsException e) {
-                    //关闭加载对话框
-                    Transparent.dismiss();
-                    toastUtil.ShowToast("串口通信失败，请检查设备连接状态！");
-                }
-            }
-        }
-    };
+//    @SuppressLint("HandlerLeak")
+//    private final Handler usbHandler = new Handler() {
+//        @Override
+//        public void handleMessage(Message msg) {
+//            if (msg.what == 2) {
+//                try {
+//                    useUsbtoserial();
+//                } catch (IndexOutOfBoundsException e) {
+//                    //关闭加载对话框
+//                    Transparent.dismiss();
+//                    toastUtil.ShowToast("串口通信失败，请检查设备连接状态！");
+//                }
+//            }
+//        }
+//    };
 
     private void useUsbtoserial() {
         //A72上只有一个 usb转串口，用position =0即可
@@ -599,7 +559,7 @@ public class FirstActivity extends AppCompatActivity {
                 HexDump.toHexString((short) device.getProductId()));
         Message msg = LeftFragment.showidHandler.obtainMessage(22, usbid);
         msg.sendToTarget();
-        FirstActivity.sPort = port;
+        sPort = port;
         if (sPort != null) {
             //使用usb功能
             controlusb();
@@ -614,13 +574,11 @@ public class FirstActivity extends AppCompatActivity {
             protected List<UsbSerialPort> doInBackground(Void... params) {
                 Log.e(TAG, "Refreshing device list ...");
                 Log.e("mUsbManager is :", "  " + mUsbManager);
-                final List<UsbSerialDriver> drivers =
-                        UsbSerialProber.getDefaultProber().findAllDrivers(mUsbManager);
+                final List<UsbSerialDriver> drivers = UsbSerialProber.getDefaultProber().findAllDrivers(mUsbManager);
                 final List<UsbSerialPort> result = new ArrayList<>();
                 for (final UsbSerialDriver driver : drivers) {
                     final List<UsbSerialPort> ports = driver.getPorts();
-                    Log.e(TAG, String.format("+ %s: %s port%s",
-                            driver, ports.size(), ports.size() == 1 ? "" : "s"));
+                    Log.e(TAG, String.format("+ %s: %s port%s", driver, ports.size(), ports.size() == 1 ? "" : "s"));
                     result.addAll(ports);
                 }
                 return result;
@@ -630,7 +588,14 @@ public class FirstActivity extends AppCompatActivity {
             protected void onPostExecute(List<UsbSerialPort> result) {
                 mEntries.clear();
                 mEntries.addAll(result);
-                usbHandler.sendEmptyMessage(2);
+//                usbHandler.sendEmptyMessage(2);
+                try {
+                    useUsbtoserial();
+                } catch (IndexOutOfBoundsException e) {
+                    //关闭加载对话框
+                    Transparent.dismiss();
+                    toastUtil.ShowToast("串口通信失败，请检查设备连接状态！");
+                }
                 Log.e(TAG, "Done refreshing, " + mEntries.size() + " entries found.");
             }
         }.execute((Void) null);
@@ -700,7 +665,7 @@ public class FirstActivity extends AppCompatActivity {
      * 调用onCreate()方法初始化基于Yolov5的tflite模型
      */
     private boolean onLoadYTModel() {
-        return yolov5_tflite_tsDetector.LoadModel("GPU", 4, this.getAssets());
+        return yolov5_tflite_tsDetector.LoadModel("CPU", 4, this.getAssets());
     }
 
     /**

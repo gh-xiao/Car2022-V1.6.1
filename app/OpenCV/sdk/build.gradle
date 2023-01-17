@@ -98,7 +98,6 @@ android {
 
     defaultConfig {
         minSdkVersion 21
-        //noinspection ExpiredTargetSdkVersion
         targetSdkVersion 26
 
         externalNativeBuild {

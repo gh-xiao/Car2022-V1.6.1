@@ -15,17 +15,15 @@
     <!--允许程序写入外部存储,如SD卡上写文件-->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
+    <!--    高版本特性(目前暂无),加入在下方-->
     <!--    此处为自己需要添加申请的权限-->
-    <!--    此权限需要申请的原因为百度的图像分类需要联网激活-->
-    <!--获取手机识别码权限-->
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <!-- 支持Android11需配置 -->
     <uses-permission
         android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" />
 
+
     <!--        android:requestLegacyExternalStorage="true"-->
-    <!--    高版本特性(目前暂无),加入在下方-->
     <application
         android:name=".Utils.CameraUtil.XcApplication"
         android:allowBackup="true"

@@ -49,7 +49,7 @@ public class Yolov5_tflite_TSDetector {
     public boolean LoadModel(@NonNull String device, int numThreads, AssetManager assetManager) {
 
         //模型文件
-        String modelString = "yolov5s-fp16.tflite";
+        String modelString = "TSyolov5s-fp16.tflite";
         /* 线程数(不推荐超过9线程数) */
         if (numThreads > 9) numThreads = 4;
         LOGGER.i("Changing model to ***" + modelString + "*** device ***" + device + "***");

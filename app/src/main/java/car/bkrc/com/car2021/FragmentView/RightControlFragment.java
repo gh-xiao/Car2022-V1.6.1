@@ -71,9 +71,8 @@ public class RightControlFragment extends Fragment {
     }
 
     // 接受显示设备发送的数据
-    @SuppressLint("HandlerLeak")
+    @SuppressLint({"HandlerLeak", "SetTextI18n"})
     private final Handler rehHandler = new Handler() {
-        @SuppressLint("SetTextI18n")
         public void handleMessage(Message msg) {
             if (msg.what == 1) {
                 byte[] mByte = (byte[]) msg.obj;
@@ -93,7 +92,6 @@ public class RightControlFragment extends Fragment {
                     long codedDisk = mByte[9] & 0xff;
                     codedDisk = codedDisk << 8;
                     codedDisk += mByte[8] & 0xff;
-                    String camera_show_ip = FirstActivity.IPCamera;
                     if (mByte[1] == (byte) 0xaa) {
                         // 主车
                         if (FirstActivity.chief_status_flag) {
@@ -217,9 +215,8 @@ public class RightControlFragment extends Fragment {
         } else if (refresh.getRefreshState() == 3) {
             toastUtil.ShowToast("平台已连接");
         } else if (refresh.getRefreshState() == 4) {
-            toastUtil.ShowToast("平台连接失败！");
-        } else toastUtil.ShowToast("请检查WiFi连接状态！");
-
+            toastUtil.ShowToast("平台连接失败!");
+        } else toastUtil.ShowToast("请检查WiFi连接状态!");
     }
 
     private void connect_Open() {
@@ -242,6 +239,7 @@ public class RightControlFragment extends Fragment {
 
     /**
      * 速度
+     *
      * @return
      */
     private int getSpeed() {
@@ -257,6 +255,7 @@ public class RightControlFragment extends Fragment {
 
     /**
      * 码盘
+     *
      * @return
      */
     private int getEncoder() {
@@ -272,6 +271,7 @@ public class RightControlFragment extends Fragment {
 
     /**
      * 旋转
+     *
      * @return
      */
     private int getAngle() {

@@ -7,10 +7,12 @@
 #include <algorithm>
 #include <paddle_api.h>
 #include <string>
+#include <jni.h>
 
 static paddle::lite_api::PowerMode str_to_cpu_mode(const std::string &cpu_mode);
 
-extern "C" JNIEXPORT jlong JNICALL
+
+extern "C" JNIEXPORT jlong
 Java_com_xiao_baiduocr_OCRPredictorNative_init(
         JNIEnv *env, jobject thiz, jstring j_det_model_path,
         jstring j_rec_model_path, jstring j_cls_model_path, jint j_thread_num,
@@ -76,15 +78,15 @@ Java_com_xiao_baiduocr_OCRPredictorNative_forward(
     dims_arr.resize(dims_float_arr.size());
     std::copy(dims_float_arr.cbegin(), dims_float_arr.cend(), dims_arr.begin());
 
-    // 这里值有点大，就不调用jfloatarray_to_float_vector了
+// 这里值有点大，就不调用jfloatarray_to_float_vector了
     int64_t buf_len = (int64_t) env->GetArrayLength(buf);
     jfloat *buf_data = env->GetFloatArrayElements(buf, JNI_FALSE);
     float *data = (jfloat *) buf_data;
     std::vector<ppredictor::OCRPredictResult> results =
             ppredictor->infer_ocr(dims_arr, data, buf_len, NET_OCR, origin);
     LOGI("infer_ocr finished with boxes %ld", results.size());
-    // 这里将std::vector<ppredictor::OCRPredictResult> 序列化成
-    // float数组，传输到java层再反序列化
+// 这里将std::vector<ppredictor::OCRPredictResult> 序列化成
+// float数组，传输到java层再反序列化
     std::vector<float> float_arr;
     for (const ppredictor::OCRPredictResult &r : results) {
         float_arr.push_back(r.points.size());

@@ -41,7 +41,7 @@ import car.bkrc.com.car2021.Utils.CameraUtil.XcApplication;
 import car.bkrc.com.car2021.Utils.OtherUtil.CameraConnectUtil;
 import car.bkrc.com.car2021.Utils.OtherUtil.RadiusUtil;
 
-public class LeftFragment extends Fragment implements View.OnClickListener {
+public class LeftFragment extends Fragment {
 
     private float x1 = 0;
     private float y1 = 0;
@@ -54,7 +54,6 @@ public class LeftFragment extends Fragment implements View.OnClickListener {
     private Button state;
     private Button control;
     private CameraConnectUtil cameraConnectUtil;
-    public static Handler btChange_Handler;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -70,11 +69,10 @@ public class LeftFragment extends Fragment implements View.OnClickListener {
         cameraCommandUtil = new CameraCommandUtil();
         cameraConnectUtil = new CameraConnectUtil(getContext());
         getCameraPic();
-        btChange_Handler = bt_handler;
         if (XcApplication.isSerial == XcApplication.Mode.SOCKET && !IPCamera.equals("null:81")) {
-            setCameraConnectState(true);
+//            setCameraConnectState(true);
             showIP.setText("WiFi-IP：" + FirstActivity.IPCar + "\n" + "Camera-IP:" + FirstActivity.pureCameraIP);
-        } else if (XcApplication.isSerial == XcApplication.Mode.SOCKET && IPCamera.equals("null:81")) {
+        } else if (XcApplication.isSerial == XcApplication.Mode.SOCKET) {
             showIP.setText("WiFi-IP：" + FirstActivity.IPCar + "\n" + "请重启您的平台设备！");
         }
         return view;
@@ -104,10 +102,6 @@ public class LeftFragment extends Fragment implements View.OnClickListener {
         state = view.findViewById(R.id.state);
         control = view.findViewById(R.id.control);
         Button clear_coded_disc = view.findViewById(R.id.clear_coded_disc);
-
-        state.setOnClickListener(this);
-        control.setOnClickListener(this);
-        clear_coded_disc.setOnClickListener(this);
     }
 
     private void getCameraPic() {
@@ -137,9 +131,7 @@ public class LeftFragment extends Fragment implements View.OnClickListener {
         switch (refresh.getRefreshState()) {
             case 1:
                 Log.e(TAG, "onEventMainThread: " + IPCamera);
-                if (IPCamera.equals("null:81")) {
-                    Log.e(TAG, "onEventMainThread: " + IPCamera);
-                }
+                if (IPCamera.equals("null:81")) Log.e(TAG, "onEventMainThread: " + IPCamera);
                 cameraConnectUtil.cameraStopService();
                 cameraConnectUtil.cameraInit();
                 cameraConnectUtil.search();
@@ -147,7 +139,7 @@ public class LeftFragment extends Fragment implements View.OnClickListener {
             case 2:
                 getCameraPic();
                 if (XcApplication.isSerial == XcApplication.Mode.SOCKET && !IPCamera.equals("null:81")) {
-                    setCameraConnectState(true);
+//                    setCameraConnectState(true);
                     toastUtil.ShowToast("摄像头已连接");
                     showIP.setText("WiFi-IP：" + FirstActivity.IPCar + "\n" + "Camera-IP:" + FirstActivity.pureCameraIP);
                 } else if (XcApplication.isSerial == XcApplication.Mode.SOCKET && IPCamera.equals("null:81")) {
@@ -202,15 +194,15 @@ public class LeftFragment extends Fragment implements View.OnClickListener {
     public static Bitmap bitmap;
 
     // 摄像头连接状态，默认为true
-    private boolean cameraConnectState = true;
+//    private boolean cameraConnectState = true;
 
-    public boolean isCameraConnectState() {
-        return cameraConnectState;
-    }
+//    public boolean isCameraConnectState() {
+//        return cameraConnectState;
+//    }
 
-    public void setCameraConnectState(boolean cameraConnectState) {
-        this.cameraConnectState = cameraConnectState;
-    }
+//    public void setCameraConnectState(boolean cameraConnectState) {
+//        this.cameraConnectState = cameraConnectState;
+//    }
 
     private boolean connectState = true;
 
@@ -220,7 +212,7 @@ public class LeftFragment extends Fragment implements View.OnClickListener {
         if (bitmap != null) {
             setBitmap(RadiusUtil.roundBitmapByXfermode(bitmap, bitmap.getWidth(), bitmap.getHeight(), 8));
         } else {
-            setCameraConnectState(false);
+//            setCameraConnectState(false);
         }
         phHandler.sendEmptyMessage(10);
     }
@@ -300,76 +292,6 @@ public class LeftFragment extends Fragment implements View.OnClickListener {
             return true;
         }
     }
-
-    /**
-     * 建议前往FirstActivity修改监听内容
-     *
-     * @param view -
-     */
-    @SuppressLint("NonConstantResourceId")
-    @Override
-    public void onClick(View view) {
-        Button bt = (Button) view;
-        String content = (String) bt.getText();
-
-        switch (view.getId()) {
-            case R.id.state:
-                if (content.equals("接收主车状态")) {
-                    FirstActivity.chief_status_flag = true;
-                    bt.setText(getResources().getText(R.string.follow_status));
-                    FirstActivity.Connect_Transport.stateChange(2);
-                    FirstActivity.but_handler.obtainMessage(11).sendToTarget();
-                } else if (content.equals("接收从车状态")) {
-                    FirstActivity.chief_status_flag = false;
-                    bt.setText(getResources().getText(R.string.main_status));
-                    FirstActivity.Connect_Transport.stateChange(1);
-                    FirstActivity.but_handler.obtainMessage(22).sendToTarget();
-                }
-                break;
-            case R.id.control:
-                if (content.equals("控制主车")) {
-                    FirstActivity.chief_control_flag = true;
-                    bt.setText(getResources().getText(R.string.follow_control));
-                    FirstActivity.Connect_Transport.TYPE = 0xAA;
-                    FirstActivity.but_handler.obtainMessage(33).sendToTarget();
-                } else if (content.equals("控制从车")) {
-                    FirstActivity.chief_control_flag = false;
-                    bt.setText(getResources().getText(R.string.main_control));
-                    FirstActivity.Connect_Transport.TYPE = 0x02;
-                    FirstActivity.but_handler.obtainMessage(44).sendToTarget();
-                }
-                break;
-            case R.id.clear_coded_disc:
-                FirstActivity.Connect_Transport.clear();
-                break;
-            default:
-                break;
-        }
-    }
-
-    @SuppressLint("HandlerLeak")
-    private final Handler bt_handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what) {
-                case 21:
-                    state.setText(getResources().getText(R.string.follow_status));
-                    break;
-                case 22:
-                    state.setText(getResources().getText(R.string.main_status));
-                    break;
-                case 23:
-                    control.setText(getResources().getText(R.string.follow_control));
-                    break;
-                case 24:
-                    control.setText(getResources().getText(R.string.main_control));
-                    break;
-                default:
-                    break;
-            }
-        }
-    };
 
     /**
      * 刷新按钮实现顺时针360度

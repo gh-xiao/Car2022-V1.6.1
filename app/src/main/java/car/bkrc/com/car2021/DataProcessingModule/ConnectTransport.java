@@ -202,7 +202,6 @@ public class ConnectTransport {
                 }
             }
         }).start();
-
     }
 
     /**
@@ -498,11 +497,8 @@ public class ConnectTransport {
     //加光照档位
     public void gear(int i) {
         short MAJOR = 0x61;
-        if (i == 1) {
-        } else if (i == 2)
-            MAJOR = 0x62;
-        else if (i == 3)
-            MAJOR = 0x63;
+        if (i == 2) MAJOR = 0x62;
+        else if (i == 3) MAJOR = 0x63;
         send(MAJOR, (short) 0x00, (short) 0x00, (short) 0x00);
 //        红外通讯,如需要让从车启动,则将TYPE设为0x02
 //        sendSecond(MAJOR, (short) 0x00, (short) 0x00, (short) 0x00);
@@ -1554,6 +1550,7 @@ public class ConnectTransport {
      * +++++++++++++++++++++++++
      */
     //红绿灯识别模块测试 - 功能性单独测试 - 旧版
+    @Deprecated
     public String trafficLight() {
         String color = TrafficLight.getImageColorPixel(LeftFragment.bitmap);
         TrafficLight.saveBitmap();

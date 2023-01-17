@@ -59,8 +59,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);// 设置全屏
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);// 设置全屏
         /* 判断是否是平板*/
         setContentView(isPad(this) ? R.layout.activity_login : R.layout.activity_login_mobilephone);
         // EventBus消息注册
@@ -195,11 +194,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             dialog = new ProgressDialog(this);
             dialog.setMessage("撸起袖子加载中...");
             dialog.show();
-            if (XcApplication.isSerial == XcApplication.Mode.SOCKET) {
-                useNetwork();
-            } else {
-                useUart();
-            }
+            if (XcApplication.isSerial == XcApplication.Mode.SOCKET) useNetwork();
+            else search(); // 搜索摄像头然后启动摄像头
         }
     }
 
@@ -219,11 +215,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void search() {
         Intent intent = new Intent(LoginActivity.this, CameraSearchService.class);
         startService(intent);
-    }
-
-    private void useUart() {
-        // 搜索摄像头然后启动摄像头
-        search();
     }
 
     private void useNetwork() {

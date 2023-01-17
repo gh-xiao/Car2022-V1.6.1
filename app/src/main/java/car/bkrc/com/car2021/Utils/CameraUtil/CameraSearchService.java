@@ -29,7 +29,7 @@ public class CameraSearchService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
         SearchCameraUtil searchCameraUtil;
-        for (int i = 0;i < 3 && IP == null;i++) {
+        for (int i = 0; i < 3 && IP == null; i++) {
             searchCameraUtil = new SearchCameraUtil();
 //            IP = searchCameraUtil !=null ? searchCameraUtil.send(): null;
             IP = searchCameraUtil.send();
@@ -40,7 +40,6 @@ public class CameraSearchService extends IntentService {
             }
         }
         Intent mintent = new Intent(CameraConnectUtil.A_S);
-        mintent.putExtra("IP", XcApplication.cameraip);
         mintent.putExtra("IP", IP + ":81");
         mintent.putExtra("pureip", IP);
         sendBroadcast(mintent);
@@ -72,9 +71,7 @@ public class CameraSearchService extends IntentService {
             }
 
             try {
-                if (this.dSocket != null) {
-                    this.dSocket.close();
-                }
+                if (this.dSocket != null) this.dSocket.close();
                 this.dSocket = null;
                 // 第一次连接没有报错，第二次开始报这个错误。字面意思看出是由于端口被占用，未释放导致。
                 // 虽然程序貌似已经退出，个人猜测是由于系统还没有及时释放导致的。
@@ -99,7 +96,7 @@ public class CameraSearchService extends IntentService {
                 timer.schedule(new TimerTask() {
                     @Override
                     public void run() {
-                        if (isConn){
+                        if (isConn) {
                             dSocket.close();
                             this.cancel();
                         }
@@ -109,13 +106,14 @@ public class CameraSearchService extends IntentService {
                 this.dSocket.receive(recPacket);
                 timer.cancel();
                 String text = new String(this.msg, 0, recPacket.getLength());
-                if (text.substring(0, 2).equals("DH")) {
-                    this.getIP(text);
-                }
+                if (text.substring(0, 2).equals("DH")) this.getIP(text);
 
                 Log.e("IP值", this.IP);
                 this.dSocket.close();
                 Log.e(this.TAG, "消息发送成功!");
+            } catch (SocketException var3) {
+                Log.e(this.TAG, "消息接收失败.");
+                return null;
             } catch (IOException var5) {
                 var5.printStackTrace();
                 Log.e(this.TAG, "消息发送失败.");
@@ -128,7 +126,7 @@ public class CameraSearchService extends IntentService {
         private void getIP(String text) {
             byte[] ipbyte = text.getBytes(StandardCharsets.UTF_8);
 
-            for(int i = 4; i < 22 && ipbyte[i] != 0; ++i) {
+            for (int i = 4; i < 22 && ipbyte[i] != 0; ++i) {
                 if (ipbyte[i] == 46) {
                     this.IP += ".";
                 } else {

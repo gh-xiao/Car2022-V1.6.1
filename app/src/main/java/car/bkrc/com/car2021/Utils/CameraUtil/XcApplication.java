@@ -40,6 +40,4 @@ public class XcApplication extends Application {
         ipIntent.putExtra("pureCamerAIP", "0.0.0.0");
         startService(ipIntent);   //摄像头设为静态192.168.16.20时，可以不用发送
     }
-
-
 }

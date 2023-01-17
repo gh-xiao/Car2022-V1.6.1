@@ -186,11 +186,8 @@ public class ZigbeeAdapter extends RecyclerView.Adapter<ZigbeeAdapter.ViewHolder
     private void etc_SteeringEngine_Adjust(final int rudder) {
         AlertDialog.Builder garage_builder = new AlertDialog.Builder(context);
         String[] ga = {"上升", "下降"};
-        if (rudder != 0) {
-            garage_builder.setTitle("右侧舵机");
-        } else {
-            garage_builder.setTitle("左侧舵机");
-        }
+        if (rudder != 0) garage_builder.setTitle("右侧舵机");
+        else garage_builder.setTitle("左侧舵机");
         garage_builder.setSingleChoiceItems(ga, -1, (dialog, i) -> {
             switch (i) {
                 case 0:  // 上调
@@ -534,7 +531,7 @@ public class ZigbeeAdapter extends RecyclerView.Adapter<ZigbeeAdapter.ViewHolder
     }
 
     //道闸显示车牌
-    private void gate_plate_number() {
+    private void  gate_plate_number() {
         AlertDialog.Builder gate_plate_builder = new AlertDialog.Builder(context);
         gate_plate_builder.setTitle("道闸显示车牌");
         final String[] gate_Image_item = {"A123B4", "B567C8", "D910E1"};

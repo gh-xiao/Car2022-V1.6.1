@@ -144,7 +144,8 @@ public class InfraredAdapter extends RecyclerView.Adapter<InfraredAdapter.ViewHo
     private void threeDisplay() {
         AlertDialog.Builder Builder = new AlertDialog.Builder(context);
         Builder.setTitle("立体显示标志物");
-        String[] three_item = {"颜色信息显示模式", "图形信息显示模式", "距离信息显示模式", "车牌信息显示模式", "交通警示牌信息显示模式", "交通标志信息显示模式", "显示默认信息", "设置文字显示颜色"};
+        String[] three_item = {"颜色信息显示模式", "图形信息显示模式", "距离信息显示模式",
+                "车牌信息显示模式", "交通警示牌信息显示模式", "交通标志信息显示模式", "显示默认信息", "设置文字显示颜色"};
         Builder.setSingleChoiceItems(three_item, -1, (dialog, which) -> {
             // TODO Auto-generated method stub
             switch (which) {
@@ -298,7 +299,7 @@ public class InfraredAdapter extends RecyclerView.Adapter<InfraredAdapter.ViewHo
     }
 
     @SuppressLint("HandlerLeak")
-    private Handler licHandler = new Handler() {
+    private final Handler licHandler = new Handler() {
         public void handleMessage(Message msg) {
             short[] li = StringToBytes(lic_item[msg.what]);
             data[0] = 0x20;
@@ -316,15 +317,13 @@ public class InfraredAdapter extends RecyclerView.Adapter<InfraredAdapter.ViewHo
         }
     };
 
-    private int lic = -1;
     private final String[] lic_item = {"N300Y7A4", "N600H5B4", "N400Y6G6", "J888B8C8"};
 
     //车牌信息显示模式
     private void lic() {
         AlertDialog.Builder licBuilder = new AlertDialog.Builder(context);
         licBuilder.setTitle("车牌信息显示模式");
-        licBuilder.setSingleChoiceItems(lic_item, lic, (dialog, which) -> {
-            lic = which;
+        licBuilder.setSingleChoiceItems(lic_item, -1, (dialog, which) -> {
             licHandler.sendEmptyMessage(which);
         });
         licBuilder.create().show();

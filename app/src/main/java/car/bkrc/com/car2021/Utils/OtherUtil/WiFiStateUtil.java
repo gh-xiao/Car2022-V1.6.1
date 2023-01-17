@@ -52,7 +52,7 @@ public class WiFiStateUtil {
             mReceive = new WifiStateBroadcastReceive();
         }
         IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(wifiManager.WIFI_STATE_CHANGED_ACTION);
+        intentFilter.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION);
         context.registerReceiver(mReceive, intentFilter);
     }
 
@@ -64,10 +64,9 @@ public class WiFiStateUtil {
     }
 
     class WifiStateBroadcastReceive extends BroadcastReceiver {
-
         @Override
         public void onReceive(Context context, Intent intent) {
-            int wifiState = intent.getIntExtra(wifiManager.EXTRA_WIFI_STATE, 0);
+            int wifiState = intent.getIntExtra(WifiManager.EXTRA_WIFI_STATE, 0);
             switch (wifiState) {
                 case WifiManager.WIFI_STATE_DISABLED:
                     toastUtil.ShowToast("WiFi已关闭,请检查设备连接状态");
